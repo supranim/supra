@@ -14,7 +14,7 @@ proc showCommand*(v: Values) =
   var sp1 = newSpinny("Fetch database information", skDots)
   sp1.start
   var dbSize: string
-  withDB do:
+  withDBPool do:
     dbSize = dbcon.getValue(
       sql"SELECT pg_size_pretty( pg_database_size(?) );",
       App.env.database.local.name
@@ -23,7 +23,7 @@ proc showCommand*(v: Values) =
   add tb,
     bold"Table",
     bold"Size"
-  withDB  do:
+  withDBPool  do:
     let rows = dbcon.getAllRows(sql"SELECT * FROM pg_catalog.pg_tables WHERE schemaname = 'public' ORDER BY tablename ASC;")
     for row in rows:
       let tbSize = dbcon.getValue(sql"SELECT pg_size_pretty( pg_total_relation_size(?) );", row[1])
@@ -40,7 +40,7 @@ proc tableCommand*(v: Values) =
     bold"Column",
     bold"Data type"
   let tname = v.get("name").getStr
-  withDB do:
+  withDBPool do:
     let checkTable = dbcon.getValue(sql"SELECT to_regclass(?);", "public." & tname)
     if checkTable.len != 0:
       let columns = dbcon.getAllRows(
@@ -66,7 +66,7 @@ proc migrateCommand*(v: Values) =
   loadproject()
   var sp1 = newSpinny("Running pending migrations", skDots)
   sp1.start
-  # withDB do:
+  # withDBPool do:
     # dbcon.migrate()
   sp1.stop
   displaySuccess("Migrations completed successfully")
@@ -76,7 +76,7 @@ proc rollbackCommand*(v: Values) =
   var sp1 = newSpinny("Rolling back migrations", skDots)
   sp1.start
   let step = v.get("step").getInt
-  # withDB do:
+  # withDBPool do:
     # dbcon.rollback(step)
   sp1.stop
   displaySuccess("Rollback completed successfully")
