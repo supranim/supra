@@ -16,9 +16,9 @@ requires "libsodium"
 requires "zmq"
 requires "flatty", "jsony", "nyml"
 requires "db_connector"
-requires "enimsql"
 requires "supranim"
 requires "valido"
+requires "ozark"
 
 task dev, "Development build":
   exec "nimble build"
