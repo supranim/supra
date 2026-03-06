@@ -49,6 +49,7 @@ proc loadDatabase* =
     password = App.env.database.local.password,
     port = App.env.database.local.port
   )
+  initOzarkPool(2)
 
 proc loadProject* =
   ## Initializes a supranim project found at

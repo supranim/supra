@@ -91,7 +91,7 @@ proc initCommand*(v: Values) =
       client = newHttpClient()
       localZipPath = supranimTemplateDir / "app.zip"
     
-    if not existsFile(localZipPath) or v.has("--nocache"):
+    if not fileExists(localZipPath) or v.has("--nocache"):
       var loader = newSpinny("Downloading from remote source", skDots)
       loader.start()
       client.downloadFile(supranimStarterUrl, localZipPath)
