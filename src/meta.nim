@@ -1,10 +1,11 @@
-# This is Supra a cool CLI application for managing
-# web apps made with Supranim
-#   (c) 2024 MIT License | Made by Humans from OpenPeeps
+# Supra CLI - A command-line interface for managing
+# your Supranim applications and projects
+#
+#   (c) 2026 MIT License | Made by Humans from OpenPeeps
 #   https://supranim.com | https://github.com/supranim
 
 import std/[os, tables, times]
-import pkg/[nyml, enimsql]
+import pkg/[nyml, ozark]
 import pkg/kapsis/cli
 
 from std/net import Port
@@ -41,7 +42,8 @@ let
   configpath = getCurrentDir() / "src" / "config"
 
 proc loadDatabase* =
-  enimsql.initdb(
+  ozark.initOzarkDatabase(
+    address = "localhost",
     name = App.env.database.local.name,
     user = App.env.database.local.user,
     password = App.env.database.local.password,
@@ -66,7 +68,6 @@ proc loadProject* =
     App.config = Configs(lastModified: configpath.getLastModificationTime)
     for y in walkPattern(configpath / "*.yml"):
       try:
-        echo y
         let conf: Config = fromYaml(readFile(y), Config)
         App.config.configs[y.splitFile.name] = conf
       except YAMLException as e:

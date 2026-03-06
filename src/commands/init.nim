@@ -1,3 +1,9 @@
+# Supra CLI - A command-line interface for managing
+# your Supranim applications and projects
+#
+#   (c) 2026 MIT License | Made by Humans from OpenPeeps
+#   https://supranim.com | https://github.com/supranim
+
 import std/[httpclient, os, osproc, strformat, terminal, strutils]
 import pkg/kapsis/[runtime, cli ]
 import pkg/kapsis/interactive/[spinny, widgets]
