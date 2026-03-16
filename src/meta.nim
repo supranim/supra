@@ -6,7 +6,7 @@
 
 import std/[os, tables, times]
 import pkg/[nyml, ozark]
-import pkg/kapsis/cli
+import pkg/kapsis/interactive/prompts
 
 from std/net import Port
 

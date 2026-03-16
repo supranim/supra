@@ -12,7 +12,8 @@ initKapsis do:
     -- "Development"
     init string(project), ?bool("--nocache"):
       ## Create a new Supranim application
-      
+    
+    -- "Database Management"
     db:
       ## Database management commands
       show:
@@ -25,7 +26,9 @@ initKapsis do:
         ## Run pending migrations
       rollback int("--step"):
         ## Rollback to the previous migration batch
-      
+    
+    -- "Asset Bundling"
     bundle:
+      ## Bundle static assets into the application
       assets string(dir), string(output):
         ## Bundle static assets into the application 

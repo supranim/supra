@@ -76,7 +76,7 @@ proc writeIfChanged(path, content: string) =
       return
   writeFile(path, content)
 
-proc assetsCommand*(v: Values) =
+proc bundleAssetsCommand*(v: Values) =
   ## Bundles static assets from a directory into a .nim file with an embedded byte
   ## string and an index of asset metadata.
   let dirArg = v.get("dir").getStr

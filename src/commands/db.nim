@@ -5,11 +5,12 @@
 #   https://supranim.com | https://github.com/supranim
 
 import pkg/ozark
-import pkg/kapsis/[runtime, cli]
+import pkg/kapsis/runtime
+import pkg/kapsis/interactive/[prompts, spinny, widgets]
 import pkg/db_connector/db_postgres
 import ../meta
 
-proc showCommand*(v: Values) =
+proc dbShowCommand*(v: Values) =
   loadProject()
   var sp1 = newSpinny("Fetch database information", skDots)
   sp1.start
@@ -31,7 +32,7 @@ proc showCommand*(v: Values) =
   sp1.stop
   tb.echoTableSeps
 
-proc tableCommand*(v: Values) =
+proc dbTableCommand*(v: Values) =
   loadproject()
   var sp1 = newSpinny("Fetch `" & v.get("name").getStr & "` table information", skDots)
   sp1.start
@@ -55,14 +56,14 @@ proc tableCommand*(v: Values) =
       sp1.stop
       displayError("Table not found `" & tname & "`")
 
-proc monitorCommand*(v: Values) =
+proc dbMonitorCommand*(v: Values) =
   loadproject()
   var sp1 = newSpinny("Monitoring open connections in", skDots)
   sp1.start
   let x = sql"SELECT * FROM pg_stat_activity WHERE state = 'active' and datname = ?;"
 
 
-proc migrateCommand*(v: Values) =
+proc dbMigrateCommand*(v: Values) =
   loadproject()
   var sp1 = newSpinny("Running pending migrations", skDots)
   sp1.start
@@ -71,7 +72,7 @@ proc migrateCommand*(v: Values) =
   sp1.stop
   displaySuccess("Migrations completed successfully")
 
-proc rollbackCommand*(v: Values) =
+proc dbRollbackCommand*(v: Values) =
   loadproject()
   var sp1 = newSpinny("Rolling back migrations", skDots)
   sp1.start
