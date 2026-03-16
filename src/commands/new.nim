@@ -5,7 +5,9 @@
 #   https://supranim.com | https://github.com/supranim
 
 import std/os
-import kapsis/[runtime, cli]
+import pkg/kapsis/runtime
+import pkg/kapsis/interactive/prompts
+
 import supranim/core/paths
 
 import ../meta

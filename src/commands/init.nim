@@ -5,7 +5,8 @@
 #   https://supranim.com | https://github.com/supranim
 
 import std/[httpclient, os, osproc, strformat, terminal, strutils]
-import pkg/kapsis/[runtime, cli ]
+import pkg/kapsis/runtime
+import pkg/kapsis/interactive/prompts
 import pkg/kapsis/interactive/[spinny, widgets]
 
 import ../meta

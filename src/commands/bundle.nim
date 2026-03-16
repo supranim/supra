@@ -5,8 +5,8 @@
 #   https://supranim.com | https://github.com/supranim
 
 import std/[os, strutils, sequtils, algorithm, times]
-import pkg/kapsis/[runtime, cli]
-import pkg/kapsis/interactive/[spinny, widgets]
+import pkg/kapsis/runtime
+import pkg/kapsis/interactive/[spinny, widgets, prompts]
 
 ## This module implements the `supra bundle` command which provides
 ## utilities for bundling static assets into a Nim application.
