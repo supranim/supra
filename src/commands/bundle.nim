@@ -12,8 +12,8 @@ import pkg/kapsis/interactive/[spinny, widgets, prompts]
 ## utilities for bundling static assets into a Nim application.
 ## 
 ## It generates a .nim file with an embedded byte string and an
-## index of asset metadata, as well as a .bin file containing the
-## raw asset data. The generated .nim file can be imported into the
+## index of the file metadata, as well as a .bin file containing the
+## raw data. The generated .nim file can be imported into the
 ## application to serve assets from memory without filesystem access.
 ## 
 ## This is particularly useful for web applications that need to serve
@@ -60,13 +60,6 @@ proc nimStringLiteral(s: string): string =
         result.add(ch)
   result.add("\"")
 
-proc hasHiddenPart(rel: string): bool =
-  # Checks if any part of the relative path starts with a dot, indicating a hidden file or directory
-  for p in rel.split({'/', '\\'}):
-    if p.len > 0 and p[0] == '.':
-      return true
-  false
-
 proc writeIfChanged(path, content: string) =
   # write content to path only if it has changed to avoid
   # unnecessary rebuilds
@@ -98,7 +91,7 @@ proc bundleAssetsCommand*(v: Values) =
   var files: seq[string] = @[]
   for f in walkDirRec(srcDir):
     let relToSrc = relativePath(f, srcDir).replace("\\", "/")
-    if hasHiddenPart(relToSrc): continue
+    if relToSrc.isHidden(): continue
     files.add(f)
   files.sort(system.cmp[string])
 
@@ -154,6 +147,6 @@ block initAssets:
 """)
 
   writeIfChanged(outNim, lines.join("\n"))
-  displaySuccess("Supra Asset Bunndle generated successfully (" & $entries.len & " files)")
+  displaySuccess("Supra Assets Bunndler generated successfully (" & $entries.len & " files)")
   display("Source: " & srcDir, indent = 2)
   display("Output: " & outNim, indent = 2)

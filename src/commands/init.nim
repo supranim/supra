@@ -20,16 +20,16 @@ const
 |__     |   |   |    __/      <       |       |_|   |_|       |
 |_______|_______|___|  |___|__|___|___|__|____|_______|__|_|__|\x1b[0m
                                                         \x1b[90mv{NimblePkgVersion}\x1b[0m
-                ⚡️ \x1b[1;36mThanks for trying Supranim!\x1b[0m
-              Your new project is ready for development
+                ⚡️ \x1b[36mThanks for trying Supranim!\x1b[0m
+          Your new project is ready for development
 
 \x1b[1;97mTo get started:\x1b[0m
 1. Navigate to your project directory:
   cd {projectName}
 2. Build the project:
-  nimble dev
+  nimble build
 3. Start the web server:
-  cd build && ./app start
+  cd build && ./app start .
   """
 
   # A list of common open source licenses for user selection during project creation.
@@ -47,24 +47,9 @@ const
     "MPL-2.0",
     "AGPL-3.0",
     "EPL-2.0",
-    "Unlicense",
     "CC0-1.0",
-    "ISC",
-    "Artistic-2.0",
     "Zlib",
-    "Boost-1.0",
-    "OSL-3.0",
-    "Apache-1.1",
-    "BSD-4-Clause",
-    "CECILL-2.1",
-    "EUPL-1.2",
-    "GPL-1.0",
-    "LGPL-2.0",
-    "NCSA",
-    "OFL-1.1",
-    "SISSL",
-    "Sleepycat",
-    "X11"
+    "Unlicense",
   ]
 proc getSupranimDir*(x: string = ""): string =
   ## Returns the Supranim home directory path
@@ -88,6 +73,16 @@ proc initCommand*(v: Values) =
     if dirExists(projectPath) or fileExists(projectPath):
       displayError("A file or directory with the name '" & projectName & "' already exists in the current directory.", true)
 
+    let gitUsername = execProcess("git config --get user.name").strip()
+    let authorName = prompt("Author name", default = gitUsername)
+    var licenseIndex = promptInteractive("Project license (MIT):", knownLicenses)
+    let supraBinName = projectName # default binary name is the same as the project name
+
+    if licenseIndex == -1:
+      licenseIndex = 0 # default to MIT if no selection is made
+
+    # Download the starter template zip (if not cached)
+    # and extract it to the new project directory
     let
       client = newHttpClient()
       localZipPath = supranimTemplateDir / "app.zip"
@@ -97,14 +92,6 @@ proc initCommand*(v: Values) =
       loader.start()
       client.downloadFile(supranimStarterUrl, localZipPath)
       loader.success()
-
-    let gitUsername = execProcess("git config --get user.name").strip()
-    let authorName = prompt("Author name", default = gitUsername)
-    var licenseIndex = promptInteractive("Project license (MIT):", knownLicenses)
-    let supraBinName = projectName # default binary name is the same as the project name
-
-    if licenseIndex == -1:
-      licenseIndex = 0 # default to MIT if no selection is made
 
     # create the root project directory
     createDir(projectPath)
@@ -130,7 +117,8 @@ proc initCommand*(v: Values) =
         var dest = projectPath / item.path.extractFileName
         if item.kind == pcFile:
           # if the file is app.nimble weill be renamed to projectName.nimble
-          if item.path.extractFileName == "app.nimble":
+          let filename = item.path.extractFileName
+          if filename == "app.nimble":
             dest = projectPath / (projectName & ".nimble")
             moveFile(item.path, dest)
             let nimbleContent = readFile(dest) % [
@@ -139,6 +127,8 @@ proc initCommand*(v: Values) =
               "supraBinName", supraBinName,
             ]
             writeFile(dest, readFile(dest))
+          elif filename == ".env.sample.yml":
+            copyFile(item.path, projectPath / ".env.yml")
           else:
             moveFile(item.path, dest)
         elif item.kind == pcDir:
