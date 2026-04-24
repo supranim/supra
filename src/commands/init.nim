@@ -13,7 +13,10 @@ import ../meta
 
 const
   NimblePkgVersion {.strdefine.} = ""
-  supranimStarterUrl* = "https://github.com/supranim/app/archive/refs/heads/main.zip"
+  supranimStarterUrl* = "https://github.com/supranim/starterkit/archive/refs/heads/main.zip"
+    ## The URL to the starter template zip file.
+    ## For now we have only one starter template, but in the future will expand
+    ## to support multiple templates that users can choose from during project creation
   splashMessage = """
 \x1b[36m _______ _______ ______ ______ _______ _______ _______ _______ 
 |     __|   |   |   __ \   __ \   _   |    |  |_     _|   |   |

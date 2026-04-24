@@ -12,12 +12,12 @@ binDir        = "bin"
 
 requires "nim >= 2.0.2"
 requires "kapsis"
-requires "libsodium"
-requires "flatty", "jsony", "nyml"
+requires "flatty", "nyml"
 requires "db_connector"
 requires "supranim"
 requires "valido"
 requires "ozark"
+requires "openparser"
 
 task dev, "Development build":
   exec "nimble build"

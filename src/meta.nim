@@ -6,6 +6,8 @@
 
 import std/[os, tables, times]
 import pkg/[nyml, ozark]
+import pkg/openparser/json
+
 import pkg/kapsis/interactive/prompts
 
 from std/net import Port
@@ -27,9 +29,11 @@ type
     database*: EnvDatabase
 
   Config = OrderedTableRef[string, JsonNode]
+  
   Configs = ref object
     configs: OrderedTableRef[string, Config] = newOrderedTable[string, Config]()
     lastModified: Time
+  
   Application = ref object
     env*: Env
     config*: Configs
@@ -50,6 +54,9 @@ proc loadDatabase* =
     port = App.env.database.local.port
   )
   initOzarkPool(2)
+
+proc parseHook*(parser: var json.JsonParser, v: var Duration) =
+  advance(parser)
 
 proc loadProject* =
   ## Initializes a supranim project found at

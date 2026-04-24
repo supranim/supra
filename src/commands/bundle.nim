@@ -101,7 +101,7 @@ proc bundleAssetsCommand*(v: Values) =
 
   for f in files:
     let relToSrc = relativePath(f, srcDir).replace("\\", "/")
-    let key = "/" & (keyPrefix / relToSrc).replace("\\", "/")    # "assets/app.css"
+    let key = "/" & (relToSrc).replace("\\", "/")    # "assets/app.css"
     let raw = readFile(f)
     entries.add(Entry(key: key, off: off,
         size: raw.len, isText: isPlainText(raw)))
@@ -118,7 +118,8 @@ proc bundleAssetsCommand*(v: Values) =
   lines.add("const supraIndex = [")
   for e in entries:
     lines.add("  (" &
-      nimStringLiteral(e.key) & ", " &
+      nimStringLiteral(keyPrefix) & ", " &
+      nimStringLiteral("/" & keyPrefix / e.key) & ", " &
       $e.off & ", " &
       $e.size & ", " &
       (if e.isText: "true" else: "false") &
@@ -136,13 +137,16 @@ block initAssets:
   let sta = staticAssets()
   # Fast path for binary assets; fallback to byte->string copy
   for e in supraIndex:
-    let key = e[0]
-    let off = e[1]
-    let size = e[2]
-    let isText = e[3]
+    let prefix = e[0]
+    let key = e[1]
+    let off = e[2]
+    let size = e[3]
+    let isText = e[4]
     if isText:
-      if size == 0: sta.addTextAsset(key, "")
-      else: sta.addTextAsset(key, supraBlob[off ..< off + size])
+      if size == 0:
+        sta.addTextFile(prefix, key, "") # handle empty text files
+      else:
+        sta.addTextFile(prefix, key, supraBlob[off ..< off + size])
     else:
       sta.addAsset(key, supraToBytes(supraBlob, off, size))
 """)
