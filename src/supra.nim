@@ -30,5 +30,5 @@ initKapsis do:
     -- "Asset Bundling"
     bundle:
       ## Bundle static assets into the application
-      assets string(dir), string(output):
+      assets string(dir), string(output), ?bool("--skip-prefix"):
         ## Bundle static assets into the application 
