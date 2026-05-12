@@ -5,9 +5,8 @@
 #   https://supranim.com | https://github.com/supranim
 
 import std/[os, tables, times]
-import pkg/[nyml, ozark]
-import pkg/openparser/json
-
+import pkg/ozark
+import pkg/openparser/[json, yaml]
 import pkg/kapsis/interactive/prompts
 
 from std/net import Port
@@ -38,6 +37,15 @@ type
     env*: Env
     config*: Configs
 
+const heading = """
+ _______ _______ ______ ______ _______ _______ _______ _______ 
+|     __|   |   |   __ \   __ \   _   |    |  |_     _|   |   |
+|__     |   |   |    __/      <       |       |_|   |_|       |
+|_______|_______|___|  |___|__|___|___|__|____|_______|__|_|__|
+                                                        v{NimblePkgVersion}
+                ⚡️ Thanks for trying Supranim!
+"""
+
 var App* = Application()
 
 let
@@ -64,8 +72,8 @@ proc loadProject* =
   if fileExists(envpath):
     # read `.env.yml` file
     try:
-      App.env = fromYaml(readFile(envpath), Env)
-    except YAMLException as e:
+      App.env = parseYaml(readFile(envpath), Env)
+    except OpenParserYamlError as e:
       displayError(e.msg)
       quit(1)
   else:
@@ -76,9 +84,9 @@ proc loadProject* =
     App.config = Configs(lastModified: configpath.getLastModificationTime)
     for y in walkPattern(configpath / "*.yml"):
       try:
-        let conf: Config = fromYaml(readFile(y), Config)
+        let conf: Config = parseYaml(readFile(y), Config)
         App.config.configs[y.splitFile.name] = conf
-      except YAMLException as e:
+      except OpenParserYamlError as e:
         displayError(e.msg)
         quit(1)
   loadDatabase()
