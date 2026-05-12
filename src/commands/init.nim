@@ -32,7 +32,7 @@ const
 2. Build the project:
   nimble build
 3. Start the web server:
-  cd build && ./app start .
+  cd build && ./{projectName} start .
   """
 
   # A list of common open source licenses for user selection during project creation.
@@ -88,7 +88,7 @@ proc initCommand*(v: Values) =
     # and extract it to the new project directory
     let
       client = newHttpClient()
-      localZipPath = supranimTemplateDir / "app.zip"
+      localZipPath = supranimTemplateDir / "starterkit.zip"
     
     if not fileExists(localZipPath) or v.has("--nocache"):
       var loader = newSpinny("Downloading from remote source", skDots)
@@ -114,11 +114,12 @@ proc initCommand*(v: Values) =
     loader.success()
 
     # Move extracted files from the nested directory to the project root
-    let extractedDir = projectPath / "app-main"
+    let extractedDir = projectPath / "starterkit-main"
     if dirExists(extractedDir):
       for item in walkDir(extractedDir):
         var dest = projectPath / item.path.extractFileName
-        if item.kind == pcFile:
+        case item.kind
+        of pcFile:
           # if the file is app.nimble weill be renamed to projectName.nimble
           let filename = item.path.extractFileName
           if filename == "app.nimble":
@@ -134,8 +135,20 @@ proc initCommand*(v: Values) =
             copyFile(item.path, projectPath / ".env.yml")
           else:
             moveFile(item.path, dest)
-        elif item.kind == pcDir:
+        of pcDir:
           moveDir(item.path, dest)
+          if dest.extractFilename == "src":
+            for srcItem in walkDir(dest):
+              case srcItem.kind
+              of pcFile:
+                let filename = srcItem.path.extractFileName
+                if filename in ["app.nim", "app.nims"]:
+                  let newDest = dest / (projectName & srcItem.path.extractFileName[3..^1])
+                  moveFile(srcItem.path, newDest)
+                else:
+                  moveFile(srcItem.path, dest / filename)
+              else: discard
+        else: discard
       removeDir(extractedDir)
 
     # Once, done we can display a splash screen
