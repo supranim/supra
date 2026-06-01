@@ -4,7 +4,7 @@
 #   (c) 2026 MIT License | Made by Humans from OpenPeeps
 #   https://supranim.com | https://github.com/supranim
 
-import kapsis/framework
+import pkg/kapsis/framework
 import ./commands/[init, db, bundle]
 
 initKapsis do:

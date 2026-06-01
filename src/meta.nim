@@ -5,7 +5,7 @@
 #   https://supranim.com | https://github.com/supranim
 
 import std/[os, tables, times]
-import pkg/ozark
+import pkg/ozark/driver/psql
 import pkg/openparser/[json, yaml]
 import pkg/kapsis/interactive/prompts
 
@@ -54,7 +54,7 @@ let
   configpath = getCurrentDir() / "src" / "config"
 
 proc loadDatabase* =
-  ozark.initOzarkDatabase(
+  initOzarkDatabase(
     address = "localhost",
     name = App.env.database.local.name,
     user = App.env.database.local.user,

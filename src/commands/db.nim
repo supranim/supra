@@ -4,9 +4,9 @@
 #   (c) 2026 MIT License | Made by Humans from OpenPeeps
 #   https://supranim.com | https://github.com/supranim
 
-import pkg/ozark
 import pkg/kapsis/runtime
 import pkg/kapsis/interactive/[prompts, spinny, widgets]
+import pkg/ozark/driver/psql
 import pkg/db_connector/db_postgres
 import ../meta
 
@@ -20,17 +20,16 @@ proc dbShowCommand*(v: Values) =
       sql"SELECT pg_size_pretty( pg_database_size(?) );",
       App.env.database.local.name
     )
-  var tb: TerminalTable
-  add tb,
-    bold"Table",
-    bold"Size"
-  withDBPool  do:
+    var tb: TerminalTable
+    add tb,
+      bold"Table",
+      bold"Size"
     let rows = dbcon.getAllRows(sql"SELECT * FROM pg_catalog.pg_tables WHERE schemaname = 'public' ORDER BY tablename ASC;")
     for row in rows:
       let tbSize = dbcon.getValue(sql"SELECT pg_size_pretty( pg_total_relation_size(?) );", row[1])
       add tb, row[1], tbSize
-  sp1.stop
-  tb.echoTableSeps
+    sp1.stop
+    tb.echoTableSeps
 
 proc dbTableCommand*(v: Values) =
   loadproject()
