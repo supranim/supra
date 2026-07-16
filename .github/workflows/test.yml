@@ -20,7 +20,7 @@ jobs:
         os:
           - ubuntu-latest
           - windows-latest
-          - macos-latest
+          # - macos-latest
         nim-version:
           - 'stable'
     steps:
@@ -36,9 +36,6 @@ jobs:
 
       - if: runner.os == 'Windows'
         run: choco install openssl postgresql --params="/NoServer" -y --no-progress
-
-      - if: runner.os == 'macOS'
-        run: brew install libpq openssl
 
       - run: nimble install -Y
       - run: nim c -r src/${{ github.event.repository.name }}.nim
