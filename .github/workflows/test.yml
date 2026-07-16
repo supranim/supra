@@ -24,9 +24,12 @@ jobs:
           - 'stable'
     steps:
       - uses: actions/checkout@v3
-      - uses: iffy/install-nim@v4
+      - if: runner.os == 'Windows'
+        run: choco install openssl -y
+
+      - uses: jiro4989/setup-nim-action@v2
         with:
-          version: ${{ matrix.nim-version }}
+          nim-version: ${{ matrix.nim-version }}
 
       # install deps
       - if: runner.os == 'Linux'
