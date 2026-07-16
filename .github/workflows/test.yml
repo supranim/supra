@@ -14,9 +14,12 @@ on:
       - .github/workflows
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
         nim-version:
           - 'stable'
     steps:
@@ -27,7 +30,8 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       # install deps
-      - run: 'sudo apt-get install -y libpcre3-dev'
+      - if: runner.os == 'Linux'
+        run: 'sudo apt-get install -y libpcre3-dev'
 
       - run: nimble install -Y
       - run: nim c -r src/${{ github.event.repository.name }}.nim
