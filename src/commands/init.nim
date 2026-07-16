@@ -77,8 +77,16 @@ proc initCommand*(v: Values) =
       displayError("A file or directory with the name '" & projectName & "' already exists in the current directory.", true)
 
     let gitUsername = execProcess("git config --get user.name").strip()
-    let authorName = prompt("Author name", default = gitUsername)
-    var licenseIndex = promptInteractive("Project license (MIT):", knownLicenses)
+    let authorName =
+      if v.has("--skipconfig"):
+        "test"
+      else:
+        prompt("Author name", default = gitUsername)
+    var licenseIndex =
+      if v.has("--skipconfig"):
+        0
+      else:
+        promptInteractive("Project license (MIT):", knownLicenses)
     let supraBinName = projectName # default binary name is the same as the project name
 
     if licenseIndex == -1:
@@ -130,7 +138,7 @@ proc initCommand*(v: Values) =
               "supraAuthorLicense", knownLicenses[licenseIndex],
               "supraBinName", supraBinName,
             ]
-            writeFile(dest, readFile(dest))
+            writeFile(dest, nimbleContent)
           elif filename == ".env.sample.yml":
             copyFile(item.path, projectPath / ".env.yml")
           else:

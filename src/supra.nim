@@ -10,7 +10,7 @@ import ./commands/[init, db, bundle]
 initKapsis do:
   commands:
     -- "Development"
-    init string(project), ?bool("--nocache"):
+    init string(project), ?bool("--nocache"), ?bool("--skipconfig"):
       ## Create a new Supranim application
     
     -- "Database Management"
