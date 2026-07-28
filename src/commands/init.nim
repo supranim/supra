@@ -142,12 +142,26 @@ proc initCommand*(v: Values) =
           if filename == "app.nimble":
             dest = projectPath / (projectName & ".nimble")
             moveFile(item.path, dest)
-            let nimbleContent = readFile(dest) % [
+            var nimbleContent = readFile(dest) % [
               "supraAuthorNimble", authorName,
               "supraAuthorLicense", knownLicenses[licenseIndex],
               "supraBinName", supraBinName,
             ]
-            writeFile(dest, nimbleContent)
+            # Ensure active config lines are resolved even if the
+            # template had hardcoded defaults instead of $placeholders
+            var nimbleLines = nimbleContent.splitLines()
+            for i, line in nimbleLines:
+              let eqPos = line.find('=')
+              if eqPos < 0:
+                continue
+              let trimmed = line.strip(leading = true)
+              if trimmed.startsWith("author "):
+                nimbleLines[i] = line[0..eqPos] & " \"" & authorName & "\""
+              elif trimmed.startsWith("license "):
+                nimbleLines[i] = line[0..eqPos] & " \"" & knownLicenses[licenseIndex] & "\""
+              elif trimmed.startsWith("bin "):
+                nimbleLines[i] = line[0..eqPos] & " @[\"" & supraBinName & "\"]"
+            writeFile(dest, nimbleLines.join("\n"))
           elif filename == ".env.sample.yml":
             copyFile(item.path, projectPath / ".env.yml")
           else:
