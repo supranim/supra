@@ -5,7 +5,7 @@
 #   https://supranim.com | https://github.com/supranim
 
 import pkg/kapsis/framework
-import ./commands/[init, db, bundle]
+import ./commands/[init, bundle]
 
 initKapsis do:
   commands:
@@ -13,19 +13,19 @@ initKapsis do:
     init string(project), ?bool("--nocache"), ?bool("--skipconfig"):
       ## Create a new Supranim application
     
-    -- "Database Management"
-    db:
-      ## Database management commands
-      show:
-        ## Show database information and table sizes
-      table string(name):
-        ## Show column information for a specific table
-      monitor:
-        ## Monitor active database connections in real-time
-      migrate:
-        ## Run pending migrations
-      rollback int("--step"):
-        ## Rollback to the previous migration batch
+    # -- "Database Management"
+    # db:
+    #   ## Database management commands
+    #   show:
+    #     ## Show database information and table sizes
+    #   table string(name):
+    #     ## Show column information for a specific table
+    #   monitor:
+    #     ## Monitor active database connections in real-time
+    #   migrate:
+    #     ## Run pending migrations
+    #   rollback int("--step"):
+    #     ## Rollback to the previous migration batch
     
     -- "Asset Bundling"
     bundle:

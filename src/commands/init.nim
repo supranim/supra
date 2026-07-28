@@ -99,17 +99,18 @@ proc initCommand*(v: Values) =
       localZipPath = supranimTemplateDir / "starterkit.zip"
     
     if not fileExists(localZipPath) or v.has("--nocache"):
-      var loader = newSpinny("Downloading from remote source", skDots)
-      loader.start()
-      client.downloadFile(supranimStarterUrl, localZipPath)
-      loader.success()
+      if isatty(stdout):
+        var loader = newSpinny("Downloading from remote source", skDots)
+        loader.start()
+        client.downloadFile(supranimStarterUrl, localZipPath)
+        loader.success()
+      else:
+        echo "Downloading from remote source..."
+        client.downloadFile(supranimStarterUrl, localZipPath)
 
     # create the root project directory
     createDir(projectPath)
-    
-    # show a loading spinner while we set up the project
-    var loader = newSpinny("Unzipping the starter template", skDots)
-    loader.start()
+
     let unzipCmd =
       if findExe("unzip") != "":
         "unzip " & localZipPath & " -d " & projectPath
@@ -118,8 +119,16 @@ proc initCommand*(v: Values) =
       else:
         displayError("No suitable unzip utility found (requires 'unzip' or '7z').", true)
         quit(1)
-    discard execProcess(unzipCmd)
-    loader.success()
+
+    # show a loading spinner while we set up the project
+    if isatty(stdout):
+      var loader = newSpinny("Unzipping the starter template", skDots)
+      loader.start()
+      discard execProcess(unzipCmd)
+      loader.success()
+    else:
+      echo "Unzipping the starter template..."
+      discard execProcess(unzipCmd)
 
     # Move extracted files from the nested directory to the project root
     let extractedDir = projectPath / "starterkit-main"
@@ -161,5 +170,6 @@ proc initCommand*(v: Values) =
 
     # Once, done we can display a splash screen
     # with a few next steps to get started with the new project.
-    terminal.eraseScreen()
+    if isatty(stdout):
+      terminal.eraseScreen()
     echo replace(fmt(splashMessage), "\\x1b", "\x1b")
