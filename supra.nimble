@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.0"
+version       = "0.1.1"
 author        = "Supranim"
 description   = "CLI tool for managing Supranim projects"
 license       = "MIT"
