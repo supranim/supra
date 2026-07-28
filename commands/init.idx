@@ -1,0 +1,4 @@
+nimTitle	init	commands/init.html	module commands/init		0
+nim	supranimStarterUrl	commands/init.html#supranimStarterUrl	const supranimStarterUrl		16
+nim	getSupranimDir	commands/init.html#getSupranimDir,string	proc getSupranimDir(x: string = ""): string		57
+nim	initCommand	commands/init.html#initCommand,Values	proc initCommand(v: Values)		64

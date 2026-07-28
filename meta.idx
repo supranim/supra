@@ -1,0 +1,12 @@
+nimTitle	meta	meta.html	module meta		0
+nim	postgres	meta.html#postgres	DatabaseType.postgres		15
+nim	DatabaseType	meta.html#DatabaseType	enum DatabaseType		15
+nim	DBCredentials	meta.html#DBCredentials	type DBCredentials		19
+nim	App	meta.html#App	var App		49
+nim	loadDatabase	meta.html#loadDatabase	proc loadDatabase()		56
+nim	parseHook	meta.html#parseHook,,Duration	proc parseHook(parser: var json.JsonParser; v: var Duration)		66
+nim	loadProject	meta.html#loadProject	proc loadProject()		69
+nim	withCurrentProject	meta.html#withCurrentProject.t	template withCurrentProject(body): untyped		95
+nim	supranimBaseDir	meta.html#supranimBaseDir	const supranimBaseDir		100
+nim	supranimTemplateDir	meta.html#supranimTemplateDir	const supranimTemplateDir		101
+nim	withSupranimEnv	meta.html#withSupranimEnv.t	template withSupranimEnv(body): untyped		103

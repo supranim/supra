@@ -1,0 +1,2 @@
+nimTitle	bundle	commands/bundle.html	module commands/bundle		0
+nim	bundleAssetsCommand	commands/bundle.html#bundleAssetsCommand,Values	proc bundleAssetsCommand(v: Values)		72
