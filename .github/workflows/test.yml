@@ -12,6 +12,7 @@ on:
       - README.*
       - examples
       - .github/workflows
+  workflow_dispatch:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
