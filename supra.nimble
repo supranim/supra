@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.1"
+version       = "0.1.2"
 author        = "Supranim"
 description   = "CLI tool for managing Supranim projects"
 license       = "MIT"
@@ -12,8 +12,8 @@ bin           = @["supra"]
 
 requires "nim >= 2.0.0"
 requires "db_connector >= 0.1.0"
-requires "openparser >= 0.1.2"
-requires "kapsis >= 0.3.8"
+requires "openparser >= 0.1.8"
+requires "kapsis >= 0.3.9"
 requires "flatty >= 0.4.0"
 requires "valido >= 0.1.0"
 requires "ozark >= 0.1.5"
