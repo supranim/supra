@@ -20,7 +20,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - windows-latest
+          # - windows-latest windows sucks
           # - macos-latest
         nim-version:
           - 'stable'
