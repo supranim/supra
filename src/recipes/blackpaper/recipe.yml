@@ -1,0 +1,10 @@
+name: blackpaper
+label: Blackpaper
+description: Password strength validator via openpeeps/blackpaper
+url: https://github.com/openpeeps/blackpaper
+requires:
+  - blackpaper >= 0.2.0
+files:
+  - dest: src/service/provider/blackpaper.nim
+    source: blackpaper.nim
+init: blackpaper.init()

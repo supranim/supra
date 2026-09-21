@@ -1,0 +1,10 @@
+name: mimedb
+label: mimedb
+description: MIME type database via openpeeps/mimedb
+url: https://github.com/openpeeps/mimedb
+requires:
+  - mimedb >= 0.1.3
+files:
+  - dest: src/service/provider/mimedb.nim
+    source: mimedb.nim
+init: mimedb.init()

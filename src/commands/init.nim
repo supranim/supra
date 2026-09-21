@@ -4,19 +4,21 @@
 #   (c) 2026 MIT License | Made by Humans from OpenPeeps
 #   https://supranim.com | https://github.com/supranim
 
-import std/[httpclient, os, osproc, strformat, terminal, strutils]
+import std/[httpclient, os, osproc, strformat, terminal, strutils, sequtils]
 import pkg/kapsis/runtime
 import pkg/kapsis/interactive/prompts
 import pkg/kapsis/interactive/[spinny, widgets]
 
 import ../meta
 
+import ./recipes
+
 const
   NimblePkgVersion {.strdefine.} = ""
   supranimStarterUrl* = "https://github.com/supranim/starterkit/archive/refs/heads/main.zip"
-    ## The URL to the starter template zip file.
-    ## For now we have only one starter template, but in the future will expand
-    ## to support multiple templates that users can choose from during project creation
+    ## The URL to the web starter template zip file.
+  supranimApiStarterUrl* = "https://github.com/supranim/starterkit-api/archive/refs/heads/main.zip"
+    ## The URL to the REST API starter template zip file.
   splashMessage = """
 \x1b[36m _______ _______ ______ ______ _______ _______ _______ _______ 
 |     __|   |   |   __ \   __ \   _   |    |  |_     _|   |   |
@@ -92,21 +94,28 @@ proc initCommand*(v: Values) =
     if licenseIndex == -1:
       licenseIndex = 0 # default to MIT if no selection is made
 
+    # Pick the starter template (web by default, REST API with `--restapi`)
+    let useApiStarter = v.has("--restapi")
+    let
+      starterUrl = if useApiStarter: supranimApiStarterUrl else: supranimStarterUrl
+      starterZipName = if useApiStarter: "starterkit-api.zip" else: "starterkit.zip"
+      extractedDirName = if useApiStarter: "starterkit-api-main" else: "starterkit-main"
+
     # Download the starter template zip (if not cached)
     # and extract it to the new project directory
     let
       client = newHttpClient()
-      localZipPath = supranimTemplateDir / "starterkit.zip"
-    
+      localZipPath = supranimTemplateDir / starterZipName
+
     if not fileExists(localZipPath) or v.has("--nocache"):
       if isatty(stdout):
         var loader = newSpinny("Downloading from remote source", skDots)
         loader.start()
-        client.downloadFile(supranimStarterUrl, localZipPath)
+        client.downloadFile(starterUrl, localZipPath)
         loader.success()
       else:
         echo "Downloading from remote source..."
-        client.downloadFile(supranimStarterUrl, localZipPath)
+        client.downloadFile(starterUrl, localZipPath)
 
     # create the root project directory
     createDir(projectPath)
@@ -131,7 +140,7 @@ proc initCommand*(v: Values) =
       discard execProcess(unzipCmd)
 
     # Move extracted files from the nested directory to the project root
-    let extractedDir = projectPath / "starterkit-main"
+    let extractedDir = projectPath / extractedDirName
     if dirExists(extractedDir):
       for item in walkDir(extractedDir):
         var dest = projectPath / item.path.extractFileName
@@ -181,6 +190,37 @@ proc initCommand*(v: Values) =
               else: discard
         else: discard
       removeDir(extractedDir)
+
+    if useApiStarter:
+      # Resolve the YAML recipes for REST API projects via
+      # `--with`/`--without` flags or an interactive checkbox prompt
+      let allRecipes = loadRecipes()
+      var selected: seq[Recipe]
+      if v.has("--with") or v.has("--without"):
+        let withFlag = if v.has("--with"): v.get("--with").getStr else: ""
+        let withoutFlag = if v.has("--without"): v.get("--without").getStr else: ""
+        selected = filterRecipes(allRecipes, withFlag, withoutFlag)
+      elif v.has("--skipconfig") or not isatty(stdout):
+        selected = @[]
+      else:
+        var labels: seq[string]
+        for r in allRecipes:
+          labels.add(r.label & " — " & r.description)
+        for i in promptCheckbox("Select recipes (Space to toggle, Enter to confirm):", labels):
+          selected.add(allRecipes[i])
+      if isatty(stdout):
+        var loader = newSpinny("Applying recipes", skDots)
+        loader.start()
+        for recipe in selected:
+          applyRecipe(projectPath, recipe)
+        loader.success()
+      else:
+        for recipe in selected:
+          applyRecipe(projectPath, recipe)
+      if selected.len > 0:
+        displaySuccess("Applied " & $selected.len & " recipe" &
+          (if selected.len == 1: "" else: "s") & ": " &
+          selected.mapIt(it.name).join(", "))
 
     # Once, done we can display a splash screen
     # with a few next steps to get started with the new project.

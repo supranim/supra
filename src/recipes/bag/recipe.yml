@@ -1,0 +1,10 @@
+name: bag
+label: Bag
+description: Input bag validation via openpeeps/bag
+url: https://github.com/openpeeps/bag
+requires:
+  - bag >= 0.1.0
+files:
+  - dest: src/service/provider/bag.nim
+    source: bag.nim
+init: bag.init()

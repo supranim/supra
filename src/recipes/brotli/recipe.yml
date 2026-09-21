@@ -1,0 +1,10 @@
+name: brotli
+label: Brotli
+description: Brotli compression via nimbase/nbrotli
+url: https://github.com/nimbase/nbrotli
+requires:
+  - nbrotli >= 0.1.0
+files:
+  - dest: src/service/provider/brotli.nim
+    source: brotli.nim
+init: brotli.init()

@@ -1,0 +1,10 @@
+name: multipart
+label: Multipart
+description: Multipart uploads via openpeeps/multipart
+url: https://github.com/openpeeps/multipart
+requires:
+  - multipart >= 0.1.4
+files:
+  - dest: src/service/provider/multipart.nim
+    source: multipart.nim
+init: multipart.init()

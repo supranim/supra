@@ -1,0 +1,10 @@
+name: nimcypher
+label: Nimcypher
+description: Encryption and hashing via nimbas/nimcypher
+url: https://github.com/nimbas/nimcypher
+requires:
+  - nimcypher >= 0.2.4
+files:
+  - dest: src/service/provider/nimcypher.nim
+    source: nimcypher.nim
+init: nimcypher.init()

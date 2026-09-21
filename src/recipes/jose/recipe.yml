@@ -1,0 +1,10 @@
+name: jose
+label: JOSE
+description: JWT/JWS auth via nimbase/jose
+url: https://github.com/nimbase/jose
+requires:
+  - jose >= 0.1.0
+files:
+  - dest: src/service/provider/jose.nim
+    source: jose.nim
+init: jose.init()
