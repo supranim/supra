@@ -7,4 +7,6 @@ requires:
 files:
   - dest: src/service/provider/jose.nim
     source: jose.nim
+  - dest: config/jose.yml
+    source: jose.yml
 init: jose.init()

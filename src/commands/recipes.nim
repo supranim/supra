@@ -46,19 +46,23 @@ const
   blackpaperProvider = staticRead("../recipes/blackpaper/files/blackpaper.nim")
   multipartProvider = staticRead("../recipes/multipart/files/multipart.nim")
 
+  joseConfig = staticRead("../recipes/jose/files/jose.yml")
+  blackpaperConfig = staticRead("../recipes/blackpaper/files/blackpaper.yml")
+
 proc recipeContent*(name, source: string): string =
   ## Returns the embedded content of a recipe file
-  case name
-  of "jose": result = joseProvider
-  of "nimcypher": result = nimcypherProvider
-  of "brotli": result = brotliProvider
-  of "mimedb": result = mimedbProvider
-  of "bag": result = bagProvider
-  of "blackpaper": result = blackpaperProvider
-  of "multipart": result = multipartProvider
+  case source
+  of "jose.nim": result = joseProvider
+  of "nimcypher.nim": result = nimcypherProvider
+  of "brotli.nim": result = brotliProvider
+  of "mimedb.nim": result = mimedbProvider
+  of "bag.nim": result = bagProvider
+  of "blackpaper.nim": result = blackpaperProvider
+  of "multipart.nim": result = multipartProvider
+  of "jose.yml": result = joseConfig
+  of "blackpaper.yml": result = blackpaperConfig
   else:
-    displayError("Unknown recipe `" & name & "`", true)
-  assert result.len > 0 and source.len > 0
+    displayError("Unknown recipe file `" & name & "/" & source & "`", true)
 
 proc loadRecipes*(): seq[Recipe] =
   ## Parses the embedded YAML recipes directly to Nim objects via openparser

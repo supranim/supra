@@ -88,7 +88,7 @@ proc initCommand*(v: Values) =
       if v.has("--skipconfig"):
         0
       else:
-        promptInteractive("Project license (MIT):", knownLicenses)
+        promptInteractive("Project license (MIT):", knownLicenses, activeIcon = "⚡️")
     let supraBinName = projectName # default binary name is the same as the project name
 
     if licenseIndex == -1:
@@ -205,7 +205,7 @@ proc initCommand*(v: Values) =
       else:
         var labels: seq[string]
         for r in allRecipes:
-          labels.add(r.label & " — " & r.description)
+          labels.add("pkg/" & r.label.toLowerAscii() & " — " & r.description)
         for i in promptCheckbox("Select recipes (Space to toggle, Enter to confirm):", labels):
           selected.add(allRecipes[i])
       if isatty(stdout):

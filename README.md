@@ -42,6 +42,15 @@ supra init my-new-api --restapi
 Available recipes: `jose`, `nimcypher`, `brotli`, `mimedb`, `bag`,
 `blackpaper`, `multipart`.
 
+Providers are real Supranim services: six use `initService X[Global]`
+with a high-level `api` (`jose.issueToken/verifyToken`,
+`nimcypher.hashUserPassword/checkUserPassword`, `brotli.compressText`,
+`mimedb.mimeTypeFor`, `multipart.parseUpload`), while `blackpaper` is
+a `Blackpaper[Singleton]` holding a prepared dictionary
+(`checkPassword/isStrongPassword`). `jose` and `blackpaper` also ship
+`config/jose.yml` (`secret` supports `${env.JWT_SECRET}` refs) and
+`config/blackpaper.yml` (wordlist `dictionary` path) respectively.
+
 For non-interactive use (CI), select recipes with flags instead:
 ```bash
 supra init my-new-api --restapi --skipconfig --with=jose,bag,blackpaper

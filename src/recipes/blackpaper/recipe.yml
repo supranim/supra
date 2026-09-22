@@ -7,4 +7,6 @@ requires:
 files:
   - dest: src/service/provider/blackpaper.nim
     source: blackpaper.nim
+  - dest: config/blackpaper.yml
+    source: blackpaper.yml
 init: blackpaper.init()
