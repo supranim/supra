@@ -50,8 +50,11 @@ Providers are real Supranim services: most use `initService X[Global]`
 with a high-level `api` (`jose.issueToken/verifyToken`,
 `nimcypher.hashUserPassword/checkUserPassword`, `brotli.compressText`,
 `mimedb.mimeTypeFor`, `multipart.parseUpload`,
-`nimcrypto.hashUserPassword/checkUserPassword` (PBKDF2) and
-`nimcrypto.encryptData/decryptData` (AES-256-GCM),
+`nimcrypto.hashUserPassword/checkUserPassword` (PBKDF2 + scrypt) and
+`nimcrypto.encryptData/decryptData` (AES-256-GCM) plus
+`encryptDataCbc/decryptDataCbc`, full `*Hex` hash coverage
+(SHA-1/2, RIPEMD-160, SHA-3, BLAKE2), `hmacHex`, `deriveKey`,
+`randomHex/randomToken` and `constantTimeEqual`,
 `e2ee` (Argon2id passwords, AEAD seal/unseal, BLAKE2b over Monocypher),
 `nimsodium` (libsodium passwords, secretbox, hashing),
 `zippy.compressData/decompressData`, `zlib.compressData/decompressData`,

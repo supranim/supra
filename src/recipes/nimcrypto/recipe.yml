@@ -1,6 +1,6 @@
 name: nimcrypto
 label: Nimcrypto
-description: Hashing, HMAC, PBKDF2 passwords and AES-GCM via cheatfate/nimcrypto
+description: Hashing, HMAC, PBKDF2/scrypt passwords, AES-GCM/CBC via cheatfate/nimcrypto
 url: https://github.com/cheatfate/nimcrypto
 requires:
   - nimcrypto >= 0.7.3
