@@ -1,0 +1,9 @@
+name: openparser/fuzzy
+label: openparser/fuzzy
+description: Fuzzy string matching via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_fuzzy.nim
+    source: openparser_fuzzy.nim

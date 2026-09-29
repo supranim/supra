@@ -1,0 +1,9 @@
+name: openparser/rss
+label: openparser/rss
+description: RSS parsing via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_rss.nim
+    source: openparser_rss.nim

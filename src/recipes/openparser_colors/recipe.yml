@@ -1,0 +1,9 @@
+name: openparser/colors
+label: openparser/colors
+description: Color parsing and manipulation via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_colors.nim
+    source: openparser_colors.nim

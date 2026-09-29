@@ -1,0 +1,9 @@
+name: openparser/uuid
+label: openparser/uuid
+description: UUID v1-v8 via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_uuid.nim
+    source: openparser_uuid.nim

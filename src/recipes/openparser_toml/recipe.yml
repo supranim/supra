@@ -1,0 +1,9 @@
+name: openparser/toml
+label: openparser/toml
+description: TOML parsing and dumping via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_toml.nim
+    source: openparser_toml.nim

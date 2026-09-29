@@ -1,0 +1,9 @@
+name: openparser/qr
+label: openparser/qr
+description: QR code encoding via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_qr.nim
+    source: openparser_qr.nim

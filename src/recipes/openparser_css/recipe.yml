@@ -1,0 +1,9 @@
+name: openparser/css
+label: openparser/css
+description: CSS parsing and validation via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_css.nim
+    source: openparser_css.nim

@@ -1,0 +1,9 @@
+name: openparser/dotenv
+label: openparser/dotenv
+description: Dotenv loading via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_dotenv.nim
+    source: openparser_dotenv.nim

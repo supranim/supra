@@ -30,7 +30,14 @@ const
   recipeNames* = ["jose", "nimcypher", "brotli", "mimedb", "bag",
                    "blackpaper", "multipart", "ozark", "ormin", "norm",
                    "nimcrypto", "e2ee", "nimsodium", "zippy", "zlib",
-                   "flysystem"]
+                   "openparser/json", "openparser/yaml", "openparser/toml",
+                   "openparser/xml", "openparser/csv", "openparser/bson",
+                   "openparser/fbe", "openparser/html", "openparser/feed",
+                   "openparser/rss", "openparser/ical", "openparser/dotenv",
+                   "openparser/fuzzy", "openparser/path", "openparser/plist",
+                   "openparser/uuid", "openparser/vcard", "openparser/css",
+                   "openparser/colors", "openparser/qr", "openparser/regex",
+                   "openparser/svg"]
 
   joseYml = staticRead("../recipes/jose/recipe.yml")
   nimcypherYml = staticRead("../recipes/nimcypher/recipe.yml")
@@ -47,7 +54,28 @@ const
   nimsodiumYml = staticRead("../recipes/nimsodium/recipe.yml")
   zippyYml = staticRead("../recipes/zippy/recipe.yml")
   zlibYml = staticRead("../recipes/zlib/recipe.yml")
-  flysystemYml = staticRead("../recipes/flysystem/recipe.yml")
+  openparserJsonYml = staticRead("../recipes/openparser_json/recipe.yml")
+  openparserYamlYml = staticRead("../recipes/openparser_yaml/recipe.yml")
+  openparserTomlYml = staticRead("../recipes/openparser_toml/recipe.yml")
+  openparserXmlYml = staticRead("../recipes/openparser_xml/recipe.yml")
+  openparserCsvYml = staticRead("../recipes/openparser_csv/recipe.yml")
+  openparserBsonYml = staticRead("../recipes/openparser_bson/recipe.yml")
+  openparserFbeYml = staticRead("../recipes/openparser_fbe/recipe.yml")
+  openparserHtmlYml = staticRead("../recipes/openparser_html/recipe.yml")
+  openparserFeedYml = staticRead("../recipes/openparser_feed/recipe.yml")
+  openparserRssYml = staticRead("../recipes/openparser_rss/recipe.yml")
+  openparserIcalYml = staticRead("../recipes/openparser_ical/recipe.yml")
+  openparserDotenvYml = staticRead("../recipes/openparser_dotenv/recipe.yml")
+  openparserFuzzyYml = staticRead("../recipes/openparser_fuzzy/recipe.yml")
+  openparserPathYml = staticRead("../recipes/openparser_path/recipe.yml")
+  openparserPlistYml = staticRead("../recipes/openparser_plist/recipe.yml")
+  openparserUuidYml = staticRead("../recipes/openparser_uuid/recipe.yml")
+  openparserVcardYml = staticRead("../recipes/openparser_vcard/recipe.yml")
+  openparserCssYml = staticRead("../recipes/openparser_css/recipe.yml")
+  openparserColorsYml = staticRead("../recipes/openparser_colors/recipe.yml")
+  openparserQrYml = staticRead("../recipes/openparser_qr/recipe.yml")
+  openparserRegexYml = staticRead("../recipes/openparser_regex/recipe.yml")
+  openparserSvgYml = staticRead("../recipes/openparser_svg/recipe.yml")
 
   joseProvider = staticRead("../recipes/jose/files/jose.nim")
   nimcypherProvider = staticRead("../recipes/nimcypher/files/nimcypher.nim")
@@ -67,11 +95,31 @@ const
   nimsodiumProvider = staticRead("../recipes/nimsodium/files/nimsodium.nim")
   zippyProvider = staticRead("../recipes/zippy/files/zippy.nim")
   zlibProvider = staticRead("../recipes/zlib/files/zlib.nim")
-  flysystemProvider = staticRead("../recipes/flysystem/files/flysystem.nim")
+  openparserJsonProvider = staticRead("../recipes/openparser_json/files/openparser_json.nim")
+  openparserYamlProvider = staticRead("../recipes/openparser_yaml/files/openparser_yaml.nim")
+  openparserTomlProvider = staticRead("../recipes/openparser_toml/files/openparser_toml.nim")
+  openparserXmlProvider = staticRead("../recipes/openparser_xml/files/openparser_xml.nim")
+  openparserCsvProvider = staticRead("../recipes/openparser_csv/files/openparser_csv.nim")
+  openparserBsonProvider = staticRead("../recipes/openparser_bson/files/openparser_bson.nim")
+  openparserFbeProvider = staticRead("../recipes/openparser_fbe/files/openparser_fbe.nim")
+  openparserHtmlProvider = staticRead("../recipes/openparser_html/files/openparser_html.nim")
+  openparserFeedProvider = staticRead("../recipes/openparser_feed/files/openparser_feed.nim")
+  openparserRssProvider = staticRead("../recipes/openparser_rss/files/openparser_rss.nim")
+  openparserIcalProvider = staticRead("../recipes/openparser_ical/files/openparser_ical.nim")
+  openparserDotenvProvider = staticRead("../recipes/openparser_dotenv/files/openparser_dotenv.nim")
+  openparserFuzzyProvider = staticRead("../recipes/openparser_fuzzy/files/openparser_fuzzy.nim")
+  openparserPathProvider = staticRead("../recipes/openparser_path/files/openparser_path.nim")
+  openparserPlistProvider = staticRead("../recipes/openparser_plist/files/openparser_plist.nim")
+  openparserUuidProvider = staticRead("../recipes/openparser_uuid/files/openparser_uuid.nim")
+  openparserVcardProvider = staticRead("../recipes/openparser_vcard/files/openparser_vcard.nim")
+  openparserCssProvider = staticRead("../recipes/openparser_css/files/openparser_css.nim")
+  openparserColorsProvider = staticRead("../recipes/openparser_colors/files/openparser_colors.nim")
+  openparserQrProvider = staticRead("../recipes/openparser_qr/files/openparser_qr.nim")
+  openparserRegexProvider = staticRead("../recipes/openparser_regex/files/openparser_regex.nim")
+  openparserSvgProvider = staticRead("../recipes/openparser_svg/files/openparser_svg.nim")
 
   joseConfig = staticRead("../recipes/jose/files/jose.yml")
   blackpaperConfig = staticRead("../recipes/blackpaper/files/blackpaper.yml")
-  flysystemConfig = staticRead("../recipes/flysystem/files/flysystem.yml")
 
 proc recipeContent*(name, source: string): string =
   ## Returns the embedded content of a recipe file
@@ -96,8 +144,28 @@ proc recipeContent*(name, source: string): string =
   of "nimsodium.nim": result = nimsodiumProvider
   of "zippy.nim": result = zippyProvider
   of "zlib.nim": result = zlibProvider
-  of "flysystem.nim": result = flysystemProvider
-  of "flysystem.yml": result = flysystemConfig
+  of "openparser_json.nim": result = openparserJsonProvider
+  of "openparser_yaml.nim": result = openparserYamlProvider
+  of "openparser_toml.nim": result = openparserTomlProvider
+  of "openparser_xml.nim": result = openparserXmlProvider
+  of "openparser_csv.nim": result = openparserCsvProvider
+  of "openparser_bson.nim": result = openparserBsonProvider
+  of "openparser_fbe.nim": result = openparserFbeProvider
+  of "openparser_html.nim": result = openparserHtmlProvider
+  of "openparser_feed.nim": result = openparserFeedProvider
+  of "openparser_rss.nim": result = openparserRssProvider
+  of "openparser_ical.nim": result = openparserIcalProvider
+  of "openparser_dotenv.nim": result = openparserDotenvProvider
+  of "openparser_fuzzy.nim": result = openparserFuzzyProvider
+  of "openparser_path.nim": result = openparserPathProvider
+  of "openparser_plist.nim": result = openparserPlistProvider
+  of "openparser_uuid.nim": result = openparserUuidProvider
+  of "openparser_vcard.nim": result = openparserVcardProvider
+  of "openparser_css.nim": result = openparserCssProvider
+  of "openparser_colors.nim": result = openparserColorsProvider
+  of "openparser_qr.nim": result = openparserQrProvider
+  of "openparser_regex.nim": result = openparserRegexProvider
+  of "openparser_svg.nim": result = openparserSvgProvider
   else:
     displayError("Unknown recipe file `" & name & "/" & source & "`", true)
 
@@ -107,7 +175,15 @@ proc loadRecipes*(): seq[Recipe] =
                bagYml, blackpaperYml, multipartYml,
                ozarkYml, orminYml, normYml,
                nimcryptoYml, e2eeYml, nimsodiumYml,
-               zippyYml, zlibYml, flysystemYml]:
+               zippyYml, zlibYml,
+               openparserJsonYml, openparserYamlYml, openparserTomlYml,
+               openparserXmlYml, openparserCsvYml, openparserBsonYml,
+               openparserFbeYml, openparserHtmlYml, openparserFeedYml,
+               openparserRssYml, openparserIcalYml, openparserDotenvYml,
+               openparserFuzzyYml, openparserPathYml, openparserPlistYml,
+               openparserUuidYml, openparserVcardYml, openparserCssYml,
+               openparserColorsYml, openparserQrYml, openparserRegexYml,
+               openparserSvgYml]:
     try:
       result.add(parseYaml(raw, Recipe))
     except OpenParserYamlError as e:

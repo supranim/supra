@@ -1,0 +1,9 @@
+name: openparser/yaml
+label: openparser/yaml
+description: YAML parsing and dumping via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_yaml.nim
+    source: openparser_yaml.nim

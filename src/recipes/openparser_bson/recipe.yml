@@ -1,0 +1,9 @@
+name: openparser/bson
+label: openparser/bson
+description: BSON documents via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_bson.nim
+    source: openparser_bson.nim

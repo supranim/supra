@@ -1,0 +1,9 @@
+name: openparser/json
+label: openparser/json
+description: JSON parsing and serialization via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_json.nim
+    source: openparser_json.nim

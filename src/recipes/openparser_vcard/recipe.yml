@@ -1,0 +1,9 @@
+name: openparser/vcard
+label: openparser/vcard
+description: vCard contacts via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_vcard.nim
+    source: openparser_vcard.nim

@@ -1,0 +1,9 @@
+name: openparser/csv
+label: openparser/csv
+description: Zero-copy CSV parsing via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_csv.nim
+    source: openparser_csv.nim

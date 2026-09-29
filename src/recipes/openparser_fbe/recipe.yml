@@ -1,0 +1,9 @@
+name: openparser/fbe
+label: openparser/fbe
+description: Fast Binary Encoding via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_fbe.nim
+    source: openparser_fbe.nim

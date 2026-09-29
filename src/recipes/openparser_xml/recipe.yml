@@ -1,0 +1,9 @@
+name: openparser/xml
+label: openparser/xml
+description: XML parsing and serialization via openpeeps/openparser
+url: https://github.com/openpeeps/openparser
+requires:
+  - openparser >= 0.3.5
+files:
+  - dest: src/service/provider/openparser_xml.nim
+    source: openparser_xml.nim

@@ -1,6 +1,0 @@
-# Flysystem disks (see https://github.com/openpeeps/flysystem).
-# `default` names the disk used when no name is given.
-# Roots are resolved against the process working directory;
-# missing directories are created on demand.
-default: local
-local_root: storage/app
