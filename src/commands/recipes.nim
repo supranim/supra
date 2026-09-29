@@ -29,7 +29,8 @@ type
 const
   recipeNames* = ["jose", "nimcypher", "brotli", "mimedb", "bag",
                    "blackpaper", "multipart", "ozark", "ormin", "norm",
-                   "nimcrypto", "e2ee", "nimsodium", "zippy", "zlib"]
+                   "nimcrypto", "e2ee", "nimsodium", "zippy", "zlib",
+                   "flysystem"]
 
   joseYml = staticRead("../recipes/jose/recipe.yml")
   nimcypherYml = staticRead("../recipes/nimcypher/recipe.yml")
@@ -46,6 +47,7 @@ const
   nimsodiumYml = staticRead("../recipes/nimsodium/recipe.yml")
   zippyYml = staticRead("../recipes/zippy/recipe.yml")
   zlibYml = staticRead("../recipes/zlib/recipe.yml")
+  flysystemYml = staticRead("../recipes/flysystem/recipe.yml")
 
   joseProvider = staticRead("../recipes/jose/files/jose.nim")
   nimcypherProvider = staticRead("../recipes/nimcypher/files/nimcypher.nim")
@@ -65,9 +67,11 @@ const
   nimsodiumProvider = staticRead("../recipes/nimsodium/files/nimsodium.nim")
   zippyProvider = staticRead("../recipes/zippy/files/zippy.nim")
   zlibProvider = staticRead("../recipes/zlib/files/zlib.nim")
+  flysystemProvider = staticRead("../recipes/flysystem/files/flysystem.nim")
 
   joseConfig = staticRead("../recipes/jose/files/jose.yml")
   blackpaperConfig = staticRead("../recipes/blackpaper/files/blackpaper.yml")
+  flysystemConfig = staticRead("../recipes/flysystem/files/flysystem.yml")
 
 proc recipeContent*(name, source: string): string =
   ## Returns the embedded content of a recipe file
@@ -92,6 +96,8 @@ proc recipeContent*(name, source: string): string =
   of "nimsodium.nim": result = nimsodiumProvider
   of "zippy.nim": result = zippyProvider
   of "zlib.nim": result = zlibProvider
+  of "flysystem.nim": result = flysystemProvider
+  of "flysystem.yml": result = flysystemConfig
   else:
     displayError("Unknown recipe file `" & name & "/" & source & "`", true)
 
@@ -101,7 +107,7 @@ proc loadRecipes*(): seq[Recipe] =
                bagYml, blackpaperYml, multipartYml,
                ozarkYml, orminYml, normYml,
                nimcryptoYml, e2eeYml, nimsodiumYml,
-               zippyYml, zlibYml]:
+               zippyYml, zlibYml, flysystemYml]:
     try:
       result.add(parseYaml(raw, Recipe))
     except OpenParserYamlError as e:

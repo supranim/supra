@@ -44,7 +44,7 @@ supra init my-new-api --restapi
 
 Available recipes: `jose`, `nimcypher`, `brotli`, `mimedb`, `bag`,
 `blackpaper`, `multipart`, `ozark`, `ormin`, `norm`,
-`nimcrypto`, `e2ee`, `nimsodium`, `zippy`, `zlib`.
+`nimcrypto`, `e2ee`, `nimsodium`, `zippy`, `zlib`, `flysystem`.
 
 Providers are real Supranim services: most use `initService X[Global]`
 with a high-level `api` (`jose.issueToken/verifyToken`,
@@ -60,6 +60,10 @@ with a high-level `api` (`jose.issueToken/verifyToken`,
 `zippy.compressData/decompressData`, `zlib.compressData/decompressData`,
 `norm` validates `DB_*` env and offers `withNormDb`,
 `ormin` owns a global sqlite `db` for `query:` blocks).
+`flysystem` is a `Flysystem[Global]` owning a multi-disk file
+registry (`putFile/getFile/hasFile/deleteFile/listFiles`,
+plus `addLocalDisk`/`getDisk` for extra disks; run
+`flysystem.init()` after the base providers).
 `blackpaper` is a `Blackpaper[Singleton]` holding a prepared
 dictionary (`checkPassword/isStrongPassword`), and `ozark` is an
 `Ozark[Singleton]` over Ozark's internal pool singleton that prepares
@@ -71,6 +75,8 @@ recipes ship a model example: `ormin` adds
 `jose` and `blackpaper` also ship `config/jose.yml`
 (`secret` supports `${env.JWT_SECRET}` refs) and
 `config/blackpaper.yml` (wordlist `dictionary` path) respectively.
+`flysystem` ships `config/flysystem.yml` (`default` disk name plus
+the `local_root` storage path).
 
 For non-interactive use (CI), select recipes with the flag instead:
 ```bash
