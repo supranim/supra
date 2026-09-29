@@ -94,9 +94,11 @@ proc initCommand*(v: Values) =
     if licenseIndex == -1:
       licenseIndex = 0 # default to MIT if no selection is made
 
-    # Pick the starter template (web by default, REST API with `--restapi`)
-    let useApiStarter = v.has("--restapi")
+    # Pick the starter template: `restapi` for the REST API kit,
+    # `webapp` (default) for the full-stack web kit
     let
+      projectType = if v.has("typ"): v.get("typ").getAny.toLowerAscii else: "webapp"
+      useApiStarter = projectType == "restapi"
       starterUrl = if useApiStarter: supranimApiStarterUrl else: supranimStarterUrl
       starterZipName = if useApiStarter: "starterkit-api.zip" else: "starterkit.zip"
       extractedDirName = if useApiStarter: "starterkit-api-main" else: "starterkit-main"
@@ -191,34 +193,33 @@ proc initCommand*(v: Values) =
         else: discard
       removeDir(extractedDir)
 
-    if useApiStarter:
-      # Resolve the YAML recipes for REST API projects via
-      # the `--with` flag or an interactive checkbox prompt
-      let allRecipes = loadRecipes()
-      var selected: seq[Recipe]
-      if v.has("--with"):
-        selected = filterRecipes(allRecipes, v.get("--with").getStr)
-      elif v.has("--skipconfig") or not isatty(stdout):
-        selected = @[]
-      else:
-        var labels: seq[string]
-        for r in allRecipes:
-          labels.add("pkg/" & r.label.toLowerAscii() & " — " & r.description)
-        for i in promptCheckbox("Select recipes (Space to toggle, Enter to confirm):", labels):
-          selected.add(allRecipes[i])
-      if isatty(stdout):
-        var loader = newSpinny("Applying recipes", skDots)
-        loader.start()
-        for recipe in selected:
-          applyRecipe(projectPath, recipe)
-        loader.success()
-      else:
-        for recipe in selected:
-          applyRecipe(projectPath, recipe)
-      if selected.len > 0:
-        displaySuccess("Applied " & $selected.len & " recipe" &
-          (if selected.len == 1: "" else: "s") & ": " &
-          selected.mapIt(it.name).join(", "))
+    # Resolve the YAML recipes via the `--with` flag
+    # or an interactive checkbox prompt
+    let allRecipes = loadRecipes()
+    var selected: seq[Recipe]
+    if v.has("--with"):
+      selected = filterRecipes(allRecipes, v.get("--with").getStr)
+    elif v.has("--skipconfig") or not isatty(stdout):
+      selected = @[]
+    else:
+      var labels: seq[string]
+      for r in allRecipes:
+        labels.add(r.label.toLowerAscii() & " — " & r.description)
+      for i in promptCheckbox("Select recipes (Space to toggle, Enter to confirm):", labels):
+        selected.add(allRecipes[i])
+    if isatty(stdout):
+      var loader = newSpinny("Applying recipes", skDots)
+      loader.start()
+      for recipe in selected:
+        applyRecipe(projectPath, recipe)
+      loader.success()
+    else:
+      for recipe in selected:
+        applyRecipe(projectPath, recipe)
+    if selected.len > 0:
+      displaySuccess("Applied " & $selected.len & " recipe" &
+        (if selected.len == 1: "" else: "s") & ": " &
+        selected.mapIt(it.name).join(", "))
 
     # Once, done we can display a splash screen
     # with a few next steps to get started with the new project.

@@ -29,7 +29,7 @@ supra init my-new-app
 
 ### Create a new REST API project
 
-Use the `--restapi` flag to bootstrap from the
+Pass `restapi` as the project type to bootstrap from the
 [REST API Starter Kit](https://github.com/supranim/starterkit-api).
 You'll get an interactive checkbox prompt to pick YAML-based recipes
 (`Space` to toggle, `Enter` to confirm). Each recipe adds its
@@ -39,8 +39,11 @@ an `init` line into `App.services`. Stateless `Global` providers
 (`nimcypher`, `brotli`, `bag`, `multipart`, `nimcrypto`, `e2ee`,
 `nimsodium`, `zippy`, `zlib`) need no `init` call.
 ```bash
-supra init my-new-api --restapi
+supra init my-new-api restapi
 ```
+
+Both project types (`webapp` — the default — and `restapi`) run the
+same recipe prompt, so the recipe list below applies to either.
 
 Available recipes: `jose`, `nimcypher`, `brotli`, `mimedb`, `bag`,
 `blackpaper`, `multipart`, `ozark`, `ormin`, `norm`,
@@ -78,7 +81,7 @@ recipes ship a model example: `ormin` adds
 
 For non-interactive use (CI), select recipes with the flag instead:
 ```bash
-supra init my-new-api --restapi --skipconfig --with=jose,bag,blackpaper
+supra init my-new-api restapi --skipconfig --with=jose,bag,blackpaper
 ```
 
 ### ❤ Contributions & Support
