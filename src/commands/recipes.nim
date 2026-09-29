@@ -28,7 +28,7 @@ type
 
 const
   recipeNames* = ["jose", "nimcypher", "brotli", "mimedb", "bag",
-                  "blackpaper", "multipart"]
+                  "blackpaper", "multipart", "ozark", "ormin", "norm"]
 
   joseYml = staticRead("../recipes/jose/recipe.yml")
   nimcypherYml = staticRead("../recipes/nimcypher/recipe.yml")
@@ -37,6 +37,9 @@ const
   bagYml = staticRead("../recipes/bag/recipe.yml")
   blackpaperYml = staticRead("../recipes/blackpaper/recipe.yml")
   multipartYml = staticRead("../recipes/multipart/recipe.yml")
+  ozarkYml = staticRead("../recipes/ozark/recipe.yml")
+  orminYml = staticRead("../recipes/ormin/recipe.yml")
+  normYml = staticRead("../recipes/norm/recipe.yml")
 
   joseProvider = staticRead("../recipes/jose/files/jose.nim")
   nimcypherProvider = staticRead("../recipes/nimcypher/files/nimcypher.nim")
@@ -45,6 +48,10 @@ const
   bagProvider = staticRead("../recipes/bag/files/bag.nim")
   blackpaperProvider = staticRead("../recipes/blackpaper/files/blackpaper.nim")
   multipartProvider = staticRead("../recipes/multipart/files/multipart.nim")
+  ozarkProvider = staticRead("../recipes/ozark/files/ozark.nim")
+  ozarkUserModel = staticRead("../recipes/ozark/files/user.nim")
+  orminProvider = staticRead("../recipes/ormin/files/ormin.nim")
+  normProvider = staticRead("../recipes/norm/files/norm.nim")
 
   joseConfig = staticRead("../recipes/jose/files/jose.yml")
   blackpaperConfig = staticRead("../recipes/blackpaper/files/blackpaper.yml")
@@ -61,13 +68,18 @@ proc recipeContent*(name, source: string): string =
   of "multipart.nim": result = multipartProvider
   of "jose.yml": result = joseConfig
   of "blackpaper.yml": result = blackpaperConfig
+  of "ozark.nim": result = ozarkProvider
+  of "user.nim": result = ozarkUserModel
+  of "ormin.nim": result = orminProvider
+  of "norm.nim": result = normProvider
   else:
     displayError("Unknown recipe file `" & name & "/" & source & "`", true)
 
 proc loadRecipes*(): seq[Recipe] =
   ## Parses the embedded YAML recipes directly to Nim objects via openparser
   for raw in [joseYml, nimcypherYml, brotliYml, mimedbYml,
-              bagYml, blackpaperYml, multipartYml]:
+              bagYml, blackpaperYml, multipartYml,
+              ozarkYml, orminYml, normYml]:
     try:
       result.add(parseYaml(raw, Recipe))
     except OpenParserYamlError as e:
@@ -136,16 +148,12 @@ proc applyRecipe*(projectPath: string, recipe: Recipe) =
         displayError("Could not wire `" & recipe.name & "` into `App.services`", true)
       writeFile(servicesPath, srcLines.join("\n"))
 
-proc filterRecipes*(all: seq[Recipe], withFlag, withoutFlag: string): seq[Recipe] =
-  ## Resolves `--with`/`--without` comma-separated recipe names
-  var wanted = withFlag.split(',').mapIt(it.strip().toLowerAscii()).filterIt(it.len > 0)
-  let excluded = withoutFlag.split(',').mapIt(it.strip().toLowerAscii()).filterIt(it.len > 0)
-  if wanted.len == 0:
-    wanted = all.mapIt(it.name)
+proc filterRecipes*(all: seq[Recipe], withFlag: string): seq[Recipe] =
+  ## Resolves the `--with` comma-separated recipe names
+  let wanted = withFlag.split(',').mapIt(it.strip().toLowerAscii()).filterIt(it.len > 0)
   for name in wanted:
-    if name notin excluded:
-      let hit = all.filterIt(it.name == name)
-      if hit.len == 0:
-        displayError("Unknown recipe `" & name & "`. Available: " &
-          all.mapIt(it.name).join(", "), true)
-      result.add(hit[0])
+    let hit = all.filterIt(it.name == name)
+    if hit.len == 0:
+      displayError("Unknown recipe `" & name & "`. Available: " &
+        all.mapIt(it.name).join(", "), true)
+    result.add(hit[0])

@@ -1,0 +1,10 @@
+name: norm
+label: Norm
+description: Object-driven ORM via moigagoo/norm
+url: https://github.com/moigagoo/norm
+requires:
+  - norm >= 2.8.7
+files:
+  - dest: src/service/provider/norm.nim
+    source: norm.nim
+init: norm.init()

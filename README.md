@@ -40,21 +40,26 @@ supra init my-new-api --restapi
 ```
 
 Available recipes: `jose`, `nimcypher`, `brotli`, `mimedb`, `bag`,
-`blackpaper`, `multipart`.
+`blackpaper`, `multipart`, `ozark`, `ormin`, `norm`.
 
-Providers are real Supranim services: six use `initService X[Global]`
+Providers are real Supranim services: most use `initService X[Global]`
 with a high-level `api` (`jose.issueToken/verifyToken`,
 `nimcypher.hashUserPassword/checkUserPassword`, `brotli.compressText`,
-`mimedb.mimeTypeFor`, `multipart.parseUpload`), while `blackpaper` is
-a `Blackpaper[Singleton]` holding a prepared dictionary
-(`checkPassword/isStrongPassword`). `jose` and `blackpaper` also ship
-`config/jose.yml` (`secret` supports `${env.JWT_SECRET}` refs) and
+`mimedb.mimeTypeFor`, `multipart.parseUpload`,
+`norm` validates `DB_*` env and offers `withNormDb`,
+`ormin` owns a global sqlite `db` for `query:` blocks).
+`blackpaper` is a `Blackpaper[Singleton]` holding a prepared
+dictionary (`checkPassword/isStrongPassword`), and `ozark` is an
+`Ozark[Singleton]` over Ozark's internal pool singleton that prepares
+tables (it also scaffolds `src/model/user.nim`; run `ozark.init()`
+after the base `db.init()`).
+`jose` and `blackpaper` also ship `config/jose.yml`
+(`secret` supports `${env.JWT_SECRET}` refs) and
 `config/blackpaper.yml` (wordlist `dictionary` path) respectively.
 
-For non-interactive use (CI), select recipes with flags instead:
+For non-interactive use (CI), select recipes with the flag instead:
 ```bash
 supra init my-new-api --restapi --skipconfig --with=jose,bag,blackpaper
-supra init my-new-api --restapi --skipconfig --without=multipart
 ```
 
 ### ❤ Contributions & Support

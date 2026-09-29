@@ -1,0 +1,10 @@
+name: ormin
+label: Ormin
+description: Prepared-statement ORM via Araq/ormin
+url: https://github.com/Araq/ormin
+requires:
+  - ormin#head
+files:
+  - dest: src/service/provider/ormin.nim
+    source: ormin.nim
+init: ormin.init()

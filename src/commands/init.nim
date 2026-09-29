@@ -193,13 +193,11 @@ proc initCommand*(v: Values) =
 
     if useApiStarter:
       # Resolve the YAML recipes for REST API projects via
-      # `--with`/`--without` flags or an interactive checkbox prompt
+      # the `--with` flag or an interactive checkbox prompt
       let allRecipes = loadRecipes()
       var selected: seq[Recipe]
-      if v.has("--with") or v.has("--without"):
-        let withFlag = if v.has("--with"): v.get("--with").getStr else: ""
-        let withoutFlag = if v.has("--without"): v.get("--without").getStr else: ""
-        selected = filterRecipes(allRecipes, withFlag, withoutFlag)
+      if v.has("--with"):
+        selected = filterRecipes(allRecipes, v.get("--with").getStr)
       elif v.has("--skipconfig") or not isatty(stdout):
         selected = @[]
       else:

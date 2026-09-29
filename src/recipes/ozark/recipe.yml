@@ -1,0 +1,12 @@
+name: ozark
+label: Ozark
+description: Ozark ORM models and tables via openpeeps/ozark
+url: https://github.com/openpeeps/ozark
+requires:
+  - ozark >= 0.1.6
+files:
+  - dest: src/service/provider/ozark.nim
+    source: ozark.nim
+  - dest: src/model/user.nim
+    source: user.nim
+init: ozark.init()
