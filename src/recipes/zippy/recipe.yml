@@ -1,0 +1,9 @@
+name: zippy
+label: Zippy
+description: Compression via guzba/zippy (gzip, zlib, deflate)
+url: https://github.com/guzba/zippy
+requires:
+  - zippy >= 0.10.20
+files:
+  - dest: src/service/provider/zippy.nim
+    source: zippy.nim

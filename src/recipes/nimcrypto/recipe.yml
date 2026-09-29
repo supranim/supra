@@ -1,0 +1,9 @@
+name: nimcrypto
+label: Nimcrypto
+description: Hashing, HMAC, PBKDF2 passwords and AES-GCM via cheatfate/nimcrypto
+url: https://github.com/cheatfate/nimcrypto
+requires:
+  - nimcrypto >= 0.7.3
+files:
+  - dest: src/service/provider/nimcrypto.nim
+    source: nimcrypto.nim

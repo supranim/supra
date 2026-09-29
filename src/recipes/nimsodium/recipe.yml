@@ -1,0 +1,9 @@
+name: nimsodium
+label: Nimsodium
+description: Encryption and password hashing via libsodium
+url: https://github.com/puffball1567/nimsodium
+requires:
+  - nimsodium >= 0.2.3
+files:
+  - dest: src/service/provider/nimsodium.nim
+    source: nimsodium.nim

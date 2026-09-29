@@ -1,0 +1,9 @@
+name: zlib
+label: Zlib
+description: Compression via status-im/nim-zlib (gzip)
+url: https://github.com/status-im/nim-zlib
+requires:
+  - zlib >= 0.2.0
+files:
+  - dest: src/service/provider/zlib.nim
+    source: zlib.nim

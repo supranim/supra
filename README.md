@@ -34,18 +34,27 @@ Use the `--restapi` flag to bootstrap from the
 You'll get an interactive checkbox prompt to pick YAML-based recipes
 (`Space` to toggle, `Enter` to confirm). Each recipe adds its
 `.nimble` dependencies, drops a service provider into
-`src/service/provider/`, and wires its `init` line into `App.services`.
+`src/service/provider/`, and — for stateful providers only — wires
+an `init` line into `App.services`. Stateless `Global` providers
+(`nimcypher`, `brotli`, `bag`, `multipart`, `nimcrypto`, `e2ee`,
+`nimsodium`, `zippy`, `zlib`) need no `init` call.
 ```bash
 supra init my-new-api --restapi
 ```
 
 Available recipes: `jose`, `nimcypher`, `brotli`, `mimedb`, `bag`,
-`blackpaper`, `multipart`, `ozark`, `ormin`, `norm`.
+`blackpaper`, `multipart`, `ozark`, `ormin`, `norm`,
+`nimcrypto`, `e2ee`, `nimsodium`, `zippy`, `zlib`.
 
 Providers are real Supranim services: most use `initService X[Global]`
 with a high-level `api` (`jose.issueToken/verifyToken`,
 `nimcypher.hashUserPassword/checkUserPassword`, `brotli.compressText`,
 `mimedb.mimeTypeFor`, `multipart.parseUpload`,
+`nimcrypto.hashUserPassword/checkUserPassword` (PBKDF2) and
+`nimcrypto.encryptData/decryptData` (AES-256-GCM),
+`e2ee` (Argon2id passwords, AEAD seal/unseal, BLAKE2b over Monocypher),
+`nimsodium` (libsodium passwords, secretbox, hashing),
+`zippy.compressData/decompressData`, `zlib.compressData/decompressData`,
 `norm` validates `DB_*` env and offers `withNormDb`,
 `ormin` owns a global sqlite `db` for `query:` blocks).
 `blackpaper` is a `Blackpaper[Singleton]` holding a prepared

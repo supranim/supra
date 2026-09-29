@@ -14,10 +14,6 @@ initService Nimcypher[Global]:
   description = "Crypto service (hashing, AEAD, signatures)"
 
   api do:
-    proc init*() =
-      ## Crypto service (stateless, nothing to configure)
-      discard
-
     proc hashUserPassword*(password: string): string =
       ## Argon2 password hash for storage
       hashPassword(password)

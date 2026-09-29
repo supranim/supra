@@ -1,0 +1,9 @@
+name: e2ee
+label: E2EE
+description: E2EE, password hashing and AEAD via openpeeps/e2ee (Monocypher)
+url: https://github.com/openpeeps/e2ee
+requires:
+  - e2ee#head
+files:
+  - dest: src/service/provider/e2ee.nim
+    source: e2ee.nim

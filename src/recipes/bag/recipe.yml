@@ -7,4 +7,3 @@ requires:
 files:
   - dest: src/service/provider/bag.nim
     source: bag.nim
-init: bag.init()

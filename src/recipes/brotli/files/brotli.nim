@@ -13,10 +13,6 @@ initService Brotli[Global]:
   description = "Brotli compression service"
 
   api do:
-    proc init*() =
-      ## Compression service (stateless, nothing to configure)
-      discard
-
     proc compressText*(s: string, wbits = 16): string =
       ## Brotli-compresses `s`, returning raw bytes as a string
       compress(s, wbits)

@@ -10,11 +10,3 @@
 import pkg/supranim/core/services
 import pkg/bag
 export bag
-
-initService Bag[Global]:
-  description = "Input bag validation service"
-
-  api do:
-    proc init*() =
-      ## Validation provider (stateless, nothing to configure)
-      discard

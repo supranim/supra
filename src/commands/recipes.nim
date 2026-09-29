@@ -28,7 +28,8 @@ type
 
 const
   recipeNames* = ["jose", "nimcypher", "brotli", "mimedb", "bag",
-                  "blackpaper", "multipart", "ozark", "ormin", "norm"]
+                   "blackpaper", "multipart", "ozark", "ormin", "norm",
+                   "nimcrypto", "e2ee", "nimsodium", "zippy", "zlib"]
 
   joseYml = staticRead("../recipes/jose/recipe.yml")
   nimcypherYml = staticRead("../recipes/nimcypher/recipe.yml")
@@ -40,6 +41,11 @@ const
   ozarkYml = staticRead("../recipes/ozark/recipe.yml")
   orminYml = staticRead("../recipes/ormin/recipe.yml")
   normYml = staticRead("../recipes/norm/recipe.yml")
+  nimcryptoYml = staticRead("../recipes/nimcrypto/recipe.yml")
+  e2eeYml = staticRead("../recipes/e2ee/recipe.yml")
+  nimsodiumYml = staticRead("../recipes/nimsodium/recipe.yml")
+  zippyYml = staticRead("../recipes/zippy/recipe.yml")
+  zlibYml = staticRead("../recipes/zlib/recipe.yml")
 
   joseProvider = staticRead("../recipes/jose/files/jose.nim")
   nimcypherProvider = staticRead("../recipes/nimcypher/files/nimcypher.nim")
@@ -54,6 +60,11 @@ const
   normProvider = staticRead("../recipes/norm/files/norm.nim")
   orminSchema = staticRead("../recipes/ormin/files/schema.sql")
   normAccountModel = staticRead("../recipes/norm/files/account.nim")
+  nimcryptoProvider = staticRead("../recipes/nimcrypto/files/nimcrypto.nim")
+  e2eeProvider = staticRead("../recipes/e2ee/files/e2ee.nim")
+  nimsodiumProvider = staticRead("../recipes/nimsodium/files/nimsodium.nim")
+  zippyProvider = staticRead("../recipes/zippy/files/zippy.nim")
+  zlibProvider = staticRead("../recipes/zlib/files/zlib.nim")
 
   joseConfig = staticRead("../recipes/jose/files/jose.yml")
   blackpaperConfig = staticRead("../recipes/blackpaper/files/blackpaper.yml")
@@ -76,14 +87,21 @@ proc recipeContent*(name, source: string): string =
   of "norm.nim": result = normProvider
   of "schema.sql": result = orminSchema
   of "account.nim": result = normAccountModel
+  of "nimcrypto.nim": result = nimcryptoProvider
+  of "e2ee.nim": result = e2eeProvider
+  of "nimsodium.nim": result = nimsodiumProvider
+  of "zippy.nim": result = zippyProvider
+  of "zlib.nim": result = zlibProvider
   else:
     displayError("Unknown recipe file `" & name & "/" & source & "`", true)
 
 proc loadRecipes*(): seq[Recipe] =
   ## Parses the embedded YAML recipes directly to Nim objects via openparser
   for raw in [joseYml, nimcypherYml, brotliYml, mimedbYml,
-              bagYml, blackpaperYml, multipartYml,
-              ozarkYml, orminYml, normYml]:
+               bagYml, blackpaperYml, multipartYml,
+               ozarkYml, orminYml, normYml,
+               nimcryptoYml, e2eeYml, nimsodiumYml,
+               zippyYml, zlibYml]:
     try:
       result.add(parseYaml(raw, Recipe))
     except OpenParserYamlError as e:
