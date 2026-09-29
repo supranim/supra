@@ -2,11 +2,13 @@
 #
 # Prepared SQL statement generator with compile-time checked
 # `query:` blocks. Owns a global sqlite connection; point `init`
-# at a file (or keep `:memory:`) and define models with
-# `importModel` from your own `schema.sql`:
+# at a file (or keep `:memory:`). Models live in
+# `src/service/database/schema.sql` (a `users` example ships with
+# this recipe) — import them with `importModel`, using a path
+# relative to the calling module:
 #
 #   import ../service/provider/ormin
-#   importModel(DbBackend.sqlite, "schema")
+#   importModel(DbBackend.sqlite, "../service/database/schema")
 #
 # Note: `importModel` shells out to `ormin_importer` at compile
 # time; make it available on your PATH with

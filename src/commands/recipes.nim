@@ -52,6 +52,8 @@ const
   ozarkUserModel = staticRead("../recipes/ozark/files/user.nim")
   orminProvider = staticRead("../recipes/ormin/files/ormin.nim")
   normProvider = staticRead("../recipes/norm/files/norm.nim")
+  orminSchema = staticRead("../recipes/ormin/files/schema.sql")
+  normAccountModel = staticRead("../recipes/norm/files/account.nim")
 
   joseConfig = staticRead("../recipes/jose/files/jose.yml")
   blackpaperConfig = staticRead("../recipes/blackpaper/files/blackpaper.yml")
@@ -72,6 +74,8 @@ proc recipeContent*(name, source: string): string =
   of "user.nim": result = ozarkUserModel
   of "ormin.nim": result = orminProvider
   of "norm.nim": result = normProvider
+  of "schema.sql": result = orminSchema
+  of "account.nim": result = normAccountModel
   else:
     displayError("Unknown recipe file `" & name & "/" & source & "`", true)
 

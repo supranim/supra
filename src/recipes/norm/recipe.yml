@@ -7,4 +7,6 @@ requires:
 files:
   - dest: src/service/provider/norm.nim
     source: norm.nim
+  - dest: src/model/account.nim
+    source: account.nim
 init: norm.init()

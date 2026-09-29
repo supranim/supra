@@ -7,4 +7,6 @@ requires:
 files:
   - dest: src/service/provider/ormin.nim
     source: ormin.nim
+  - dest: src/service/database/schema.sql
+    source: schema.sql
 init: ormin.init()

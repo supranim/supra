@@ -52,7 +52,10 @@ with a high-level `api` (`jose.issueToken/verifyToken`,
 dictionary (`checkPassword/isStrongPassword`), and `ozark` is an
 `Ozark[Singleton]` over Ozark's internal pool singleton that prepares
 tables (it also scaffolds `src/model/user.nim`; run `ozark.init()`
-after the base `db.init()`).
+after the base `db.init()`). Like ozark, the other two database
+recipes ship a model example: `ormin` adds
+`src/service/database/schema.sql` (import it with `importModel`),
+`norm` adds `src/model/account.nim`.
 `jose` and `blackpaper` also ship `config/jose.yml`
 (`secret` supports `${env.JWT_SECRET}` refs) and
 `config/blackpaper.yml` (wordlist `dictionary` path) respectively.
