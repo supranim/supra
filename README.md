@@ -60,8 +60,6 @@ supra init my-new-api --restapi --skipconfig --without=multipart
 ### ❤ Contributions & Support
 - 🐛 Found a bug? [Create a new Issue](https://github.com/supranim/supra/issues)
 - 👋 Wanna help? [Fork it!](https://github.com/supranim/supra/fork)
-- 😎 [Get €20 in cloud credits from Hetzner](https://hetzner.cloud/?ref=Hm0mYGM9NxZ4)
-- 🥰 [Donate via PayPal address](https://www.paypal.com/donate/?hosted_button_id=RJK3ZTDWPL55C)
 
 ### 🎩 License
 Supranim | MIT license. [Made by Humans from OpenPeeps](https://github.com/openpeeps).<br>
